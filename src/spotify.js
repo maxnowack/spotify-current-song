@@ -22,7 +22,7 @@ export function refreshToken() {
     return spotifyApi.refreshAccessToken()
       .then((data) => {
         lastRefresh = moment();
-        console.log('The access token has been refreshed!');
+        console.log('The access token has been refreshed!', data.body.access_token);
         spotifyApi.setAccessToken(data.body.access_token);
       }, (err) => {
         console.log('Could not refresh access token', err);

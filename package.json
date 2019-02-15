@@ -11,7 +11,7 @@
     "docker-build": "npm run build && docker build -t registry.server.unsou.de/spotify-current-song:latest .",
     "docker-push": "docker push registry.server.unsou.de/spotify-current-song:latest",
     "release": "npm run clean && npm run docker-build && npm run docker-push",
-    "deploy": "npm run release && ssh max@server.unsou.de 'docker pull registry.server.unsou.de/spotify-current-song:latest && docker rm -f spotify-current-song && docker run -d --restart unless-stopped -e \"VIRTUAL_HOST=save-song.server.unsou.de\" -e \"LETSENCRYPT_HOST=save-song.server.unsou.de\" -e \"LETSENCRYPT_EMAIL=max@unsou.de\" --name spotify-current-song registry.server.unsou.de/spotify-current-song:latest'",
+    "deploy": "npm run release && ssh max@server.unsou.de 'docker pull registry.server.unsou.de/spotify-current-song:latest && docker rm -f spotify-current-song && docker run -d --restart unless-stopped -e \"VIRTUAL_HOST=save-song.server.unsou.de\" -e \"LETSENCRYPT_HOST=save-song.server.unsou.de\" -e \"LETSENCRYPT_EMAIL=max@unsou.de\" --network=webproxy --name spotify-current-song registry.server.unsou.de/spotify-current-song:latest'",
     "start": "NODE_ENV=production node dist/index.js"
   },
   "author": "Max Nowack <max@unsou.de>",
@@ -24,7 +24,14 @@
   },
   "babel": {
     "presets": [
-      "env"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "9.4.0"
+          }
+        }
+      ]
     ]
   },
   "dependencies": {

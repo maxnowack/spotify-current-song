@@ -4,6 +4,11 @@ import spotify, { refreshToken } from './spotify';
 const app = express();
 app.listen(process.env.PORT || 3000);
 
+app.get('/', (req, res) => {
+  refreshToken();
+  res.end('');
+});
+
 app.get('/saveSong', (req, res) => {
   (async () => {
     await refreshToken();
